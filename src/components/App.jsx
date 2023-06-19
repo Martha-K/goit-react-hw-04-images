@@ -1,16 +1,18 @@
+import {  useState } from 'react';
+import { ImageGallery } from './ImageGallery/ImageGallery';
+import { SearchBar } from './SearchBar/SearchBar';
+import { Div } from './styledApp';
+
+
 export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+const [picturesName, setPicturesName] = useState('')
+ 
+  
+    return (
+      <Div>
+        <SearchBar onSubmit={setPicturesName} />
+        <ImageGallery picturesName={picturesName} />
+      </Div>
+    );
+  
+}
