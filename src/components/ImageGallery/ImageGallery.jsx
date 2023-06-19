@@ -5,7 +5,7 @@ import { List } from './styled';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Loader } from '../Loader/Loader';
 import { fetchPictures } from '../Request/Request';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const ImageGallery = ({ picturesName }) => {
   const [images, setImages] = useState([]);
@@ -16,7 +16,7 @@ export const ImageGallery = ({ picturesName }) => {
   const [descriptionPicture, setDescriptionPicture] = useState(null);
   const [loader, setLoader] = useState(false);
 
-  const fetchImages = () => {
+  const fetchImages = useCallback(() => {
     setLoader(true);
 
     fetchPictures(picturesName, currentPage)
@@ -32,7 +32,7 @@ export const ImageGallery = ({ picturesName }) => {
       })
       .finally(() => setLoader(false))
       .catch(error => {});
-  };
+  }, [picturesName, currentPage]);
 
   useEffect(() => {
     if (!picturesName) {
@@ -41,7 +41,7 @@ export const ImageGallery = ({ picturesName }) => {
     setImages([]);
     setCurrentPage(1);
     fetchImages();
-  }, [picturesName]);
+  }, [picturesName, fetchImages]);
 
   const handleLoadMore = () => {
     setCurrentPage(prevState => prevState + 1);
