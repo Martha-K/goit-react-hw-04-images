@@ -16,9 +16,8 @@ export const ImageGallery = ({ picturesName }) => {
   const [descriptionPicture, setDescriptionPicture] = useState(null);
   const [loader, setLoader] = useState(false);
 
-  const fetchImages = useCallback(() => {
+  const fetchImages = () => {
     setLoader(true);
-
     fetchPictures(picturesName, currentPage)
       .then(data => {
         if (data.total === 0) {
@@ -31,21 +30,36 @@ export const ImageGallery = ({ picturesName }) => {
         }
       })
       .finally(() => setLoader(false))
-      .catch(error => {});
-  }, [picturesName, currentPage]);
+      .catch(error => {
+        return 'Error';
+      });
+  };
 
   useEffect(() => {
     if (!picturesName) {
       return;
     }
+
+    if (currentPage === 1) {
+      setImages([]);
+      fetchImages();
+      return;
+    }
+    
     setImages([]);
     setCurrentPage(1);
-    fetchImages();
-  }, [picturesName, fetchImages]);
+  }, [picturesName]);
+
+  useEffect(() => {
+    if (currentPage !== 1) {
+      fetchImages();
+      return;
+    }
+    picturesName && fetchImages()
+  }, [currentPage]);
 
   const handleLoadMore = () => {
     setCurrentPage(prevState => prevState + 1);
-    fetchImages();
   };
 
   const totalModal = item => {
@@ -89,4 +103,3 @@ export const ImageGallery = ({ picturesName }) => {
 ImageGallery.propTypes = {
   picturesName: PropTypes.string,
 };
-
