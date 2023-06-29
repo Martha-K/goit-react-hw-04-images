@@ -31,7 +31,7 @@ export const ImageGallery = ({ picturesName }) => {
       })
       .finally(() => setLoader(false))
       .catch(error => {
-        return 'Error';
+        console.log('error', error);
       });
   };
 
