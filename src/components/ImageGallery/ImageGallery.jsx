@@ -5,7 +5,7 @@ import { List } from './styled';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Loader } from '../Loader/Loader';
 import { fetchPictures } from '../Request/Request';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export const ImageGallery = ({ picturesName }) => {
   const [images, setImages] = useState([]);
@@ -48,6 +48,7 @@ export const ImageGallery = ({ picturesName }) => {
     
     setImages([]);
     setCurrentPage(1);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [picturesName]);
 
   useEffect(() => {
@@ -56,6 +57,7 @@ export const ImageGallery = ({ picturesName }) => {
       return;
     }
     picturesName && fetchImages()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const handleLoadMore = () => {
